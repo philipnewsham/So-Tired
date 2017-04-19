@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class TimeLimit : MonoBehaviour
 {
     public int minutesPerDay;
@@ -12,6 +12,8 @@ public class TimeLimit : MonoBehaviour
     public GameObject minuteHand;
     private float minuteHandRot;
     public GameObject hourHand;
+
+    private GameObject[] m_blocksLeft;
     // Use this for initialization
     void Start()
     {
@@ -34,10 +36,21 @@ public class TimeLimit : MonoBehaviour
             }
         }
     }
-
+    public GameObject endOfDayPanel;
+    public Text moneyText;
+    public Text dayText;
+    string[] dayString = new string[5] { "Monday", "Tueday", "Wednesday", "Thursday", "Friday" };
     void EndOfDay()
     {
-
+        endOfDayPanel.SetActive(true);
+        m_blocksLeft = GameObject.FindGameObjectsWithTag("Block");
+        for (int i = 0; i < m_blocksLeft.Length; i++)
+        {
+            Destroy(m_blocksLeft[i]);
+        }
+        m_countDown = m_secondsInDay;
+        moneyText.text = string.Format("${0}", GetComponent<Money>().money);
+        dayText.text = dayString[GetComponent<SpawnBlocks>().currentDay];
     }
 }
 

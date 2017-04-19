@@ -10,8 +10,13 @@ public class CheckBlocks : MonoBehaviour
     public Button dropButton;
     public List<GameObject> currentBlock = new List<GameObject>();
     public Text moneyText;
-    private float money;
+    public float money;
+    private Money m_moneyScript;
 
+    void Start()
+    {
+        m_moneyScript = GetComponent<Money>();
+    }
     public void AddBlockCount(GameObject currentPiece)
     {
         currentBlockCount += 1;
@@ -87,10 +92,10 @@ public class CheckBlocks : MonoBehaviour
         currentBlockCount = 0;
 
         if (m_matchingColours)
-            money += 8;
+            m_moneyScript.UpdateMoney(8);
         else
-            money += 5;
-        MoneyText();
+            m_moneyScript.UpdateMoney(5);
+        //MoneyText();
     }
 
     void MoneyText()
