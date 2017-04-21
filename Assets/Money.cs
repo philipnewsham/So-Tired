@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class Money : MonoBehaviour
 {
     public float money;
-    public Text moneyText;
+    public Text[] moneyText;
 	// Use this for initialization
 	void Start ()
     {
@@ -19,7 +19,10 @@ public class Money : MonoBehaviour
 	}
     void MoneyText()
     {
-        moneyText.text = string.Format("Current Money: ${0}", money);
+        for (int i = 0; i < moneyText.Length; i++)
+        {
+            moneyText[i].text = string.Format("${0}", money);
+        }
     }
     void LoadMoney()
     {

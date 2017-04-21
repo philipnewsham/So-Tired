@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class EndOfDay : MonoBehaviour {
+public class EndOfDay : MonoBehaviour
+{
 
-    void PressedButton()
+    void NewDay()
     {
-
+        //GetComponent<>
     }
 }

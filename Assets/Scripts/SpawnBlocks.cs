@@ -5,13 +5,13 @@ using UnityEngine;
 public class SpawnBlocks : MonoBehaviour
 {
     public Color[] blockColours;
-    public int currentDay;
     public GameObject block;
     public Vector2 widthLimit;
     public Vector2 heightLimit;
     public Vector2[] spawnPositions;
     float waitTime;
     private int m_currentSpawn;
+    public int currentSpawn;
 	// Use this for initialization
 	void Start ()
     {
@@ -21,14 +21,16 @@ public class SpawnBlocks : MonoBehaviour
 
     void SpawnBlock()
     {
-        if (m_currentSpawn < 32)
+        if (currentSpawn < 32)
         {
-            GameObject blockClone = Instantiate(block, spawnPositions[m_currentSpawn]/*new Vector2(Random.Range(widthLimit.x, widthLimit.y), Random.Range(heightLimit.x, heightLimit.y))*/, Quaternion.identity) as GameObject;
+            GameObject blockClone = Instantiate(block, spawnPositions[currentSpawn]/*new Vector2(Random.Range(widthLimit.x, widthLimit.y), Random.Range(heightLimit.x, heightLimit.y))*/, Quaternion.identity) as GameObject;
             MoveBlock cloneScript = blockClone.GetComponent<MoveBlock>();
             int chooseColour = Random.Range(0, blockColours.Length);
             blockClone.GetComponent<SpriteRenderer>().color = blockColours[chooseColour];
             cloneScript.blockColour = chooseColour;
-            m_currentSpawn += 1;
+            currentSpawn += 1;
         }
     }
+
+    
 }

@@ -14,6 +14,10 @@ public class TimeLimit : MonoBehaviour
     public GameObject hourHand;
 
     private GameObject[] m_blocksLeft;
+
+    public int currentDay;
+
+    //public Button clockIn;
     // Use this for initialization
     void Start()
     {
@@ -38,7 +42,7 @@ public class TimeLimit : MonoBehaviour
     }
     public GameObject endOfDayPanel;
     public Text moneyText;
-    public Text dayText;
+    public Text[] dayText;
     string[] dayString = new string[5] { "Monday", "Tueday", "Wednesday", "Thursday", "Friday" };
     void EndOfDay()
     {
@@ -50,7 +54,26 @@ public class TimeLimit : MonoBehaviour
         }
         m_countDown = m_secondsInDay;
         moneyText.text = string.Format("${0}", GetComponent<Money>().money);
-        dayText.text = dayString[GetComponent<SpawnBlocks>().currentDay];
+        UpdateDayText();
+    }
+
+    void UpdateDayText()
+    {
+        for (int i = 0; i < dayText.Length; i++)
+        {
+            dayText[i].text = dayString[currentDay];
+        }
+    }
+    //public Text 
+    public void NewDay()
+    {
+        currentDay += 1;
+        UpdateDayText();
+        m_countDown = m_secondsInDay;
+        hourHand.transform.eulerAngles = new Vector3(0, 0, 270);
+        minuteHand.transform.eulerAngles = new Vector3(0, 0, 180);
+        GetComponent<SpawnBlocks>().currentSpawn = 0;
+        m_isCounting = true;
     }
 }
 
