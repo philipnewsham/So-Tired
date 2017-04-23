@@ -16,13 +16,16 @@ public class TimeLimit : MonoBehaviour
     private GameObject[] m_blocksLeft;
 
     public int currentDay;
-
+    private Money m_moneyScript;
     //public Button clockIn;
     // Use this for initialization
     void Start()
     {
         m_secondsInDay = minutesPerDay * 60f;
         m_countDown = m_secondsInDay;
+        m_moneyScript = GetComponent<Money>();
+        LoadInformation();
+        UpdateDayText();
     }
 
     // Update is called once per frame
@@ -53,7 +56,7 @@ public class TimeLimit : MonoBehaviour
             Destroy(m_blocksLeft[i]);
         }
         m_countDown = m_secondsInDay;
-        moneyText.text = string.Format("${0}", GetComponent<Money>().money);
+        moneyText.text = string.Format("${0}", m_moneyScript.money);
         UpdateDayText();
     }
 
@@ -74,6 +77,34 @@ public class TimeLimit : MonoBehaviour
         minuteHand.transform.eulerAngles = new Vector3(0, 0, 180);
         GetComponent<SpawnBlocks>().currentSpawn = 0;
         m_isCounting = true;
+        SaveInformation();
+    }
+
+    void SaveInformation()
+    {
+        PlayerPrefs.SetInt("Day", currentDay);
+        PlayerPrefs.SetFloat("Money", m_moneyScript.money);
+    }
+    private float m_currentMoney;
+    void LoadInformation()
+    {
+        if(PlayerPrefs.HasKey("Day"))
+        {
+            currentDay = PlayerPrefs.GetInt("Day");
+        }
+        else
+        {
+            currentDay = 0;
+        }
+
+        if (PlayerPrefs.HasKey("Money"))
+        {
+            m_currentMoney = PlayerPrefs.GetFloat("Money");
+        }else
+        {
+            m_currentMoney = 0;
+        }
+        m_moneyScript.UpdateMoney(m_currentMoney);
     }
 }
 
