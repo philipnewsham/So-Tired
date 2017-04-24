@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 public class TimeLimit : MonoBehaviour
 {
-    public int minutesPerDay;
-    private float m_secondsInDay;
+    public float minutesPerDay;
+    private float m_secondsInDay = 10f;
     private float m_countDown;
     private bool m_isCounting = true;
 
@@ -67,17 +67,70 @@ public class TimeLimit : MonoBehaviour
             dayText[i].text = dayString[currentDay];
         }
     }
-    //public Text 
+    public GameObject endOfWeekPanel;
+    public Button[] weekendActivities;
     public void NewDay()
     {
         currentDay += 1;
-        UpdateDayText();
-        m_countDown = m_secondsInDay;
-        hourHand.transform.eulerAngles = new Vector3(0, 0, 270);
-        minuteHand.transform.eulerAngles = new Vector3(0, 0, 180);
-        GetComponent<SpawnBlocks>().currentSpawn = 0;
-        m_isCounting = true;
-        SaveInformation();
+        if (currentDay <= 4)
+        {
+            UpdateDayText();
+            m_countDown = m_secondsInDay;
+            hourHand.transform.eulerAngles = new Vector3(0, 0, 270);
+            minuteHand.transform.eulerAngles = new Vector3(0, 0, 180);
+            GetComponent<SpawnBlocks>().currentSpawn = 0;
+            m_isCounting = true;
+            SaveInformation();
+        }
+        else
+        {
+            endOfWeekPanel.SetActive(true);
+            CheckActivities();
+        }
+    }
+
+    public void CheckActivities()
+    {
+        float money = m_moneyScript.money;
+        for (int i = 0; i < weekendActivities.Length; i++)
+        {
+            weekendActivities[i].interactable = false;
+        }
+        weekendActivities[0].interactable = true;
+        if (money >= 10)
+        {
+            weekendActivities[1].interactable = true;
+        }
+        if (money >= 25)
+        {
+            weekendActivities[2].interactable = true;
+        }
+        if (money >= 50)
+        {
+            weekendActivities[3].interactable = true;
+        }
+        if (money >= 75)
+        {
+            weekendActivities[4].interactable = true;
+        }
+        if (money >= 100)
+        {
+            weekendActivities[5].interactable = true;
+        }
+        if (money >= 150)
+        {
+            weekendActivities[6].interactable = true;
+        }
+        if (money >= 250)
+        {
+            weekendActivities[7].interactable = true;
+        }
+    }
+
+    public void NewWeek()
+    {
+        currentDay = -1;
+        NewDay();
     }
 
     void SaveInformation()
