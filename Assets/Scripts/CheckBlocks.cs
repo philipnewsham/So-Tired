@@ -13,9 +13,11 @@ public class CheckBlocks : MonoBehaviour
     public float money;
     private Money m_moneyScript;
 
+    private AudioSource m_audioSource;
     void Start()
     {
         m_moneyScript = GetComponent<Money>();
+        m_audioSource = GetComponent<AudioSource>();
     }
     public void AddBlockCount(GameObject currentPiece)
     {
@@ -39,6 +41,7 @@ public class CheckBlocks : MonoBehaviour
     bool m_matchingColours;
     public void DeleteTetronimo()
     {
+        m_audioSource.Play();
         Vector3 placeOrder = new Vector3(currentBlock[1].GetComponent<MoveBlock>().placedInt, currentBlock[2].GetComponent<MoveBlock>().placedInt, currentBlock[3].GetComponent<MoveBlock>().placedInt);
         Vector4 blockColours = new Vector4(currentBlock[0].GetComponent<MoveBlock>().blockColour, currentBlock[1].GetComponent<MoveBlock>().blockColour, currentBlock[2].GetComponent<MoveBlock>().blockColour, currentBlock[3].GetComponent<MoveBlock>().blockColour);
         //line piece
@@ -100,6 +103,12 @@ public class CheckBlocks : MonoBehaviour
 
     void MoneyText()
     {
-        moneyText.text = string.Format("Current Money: ${0}", money);
+        moneyText.text = string.Format("Current Money: ₽{0}", money);
+    }
+
+    public void ResetCount()
+    {
+        currentBlockCount = 0;
+        currentBlock.Clear();
     }
 }

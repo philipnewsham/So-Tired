@@ -24,7 +24,7 @@ public class Money : MonoBehaviour
     {
         for (int i = 0; i < moneyText.Length; i++)
         {
-            moneyText[i].text = string.Format("${0}", money);
+            moneyText[i].text = string.Format("₽{0}", money);
         }
     }
     void LoadMoney()

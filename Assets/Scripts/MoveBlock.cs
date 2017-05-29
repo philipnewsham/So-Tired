@@ -16,8 +16,10 @@ public class MoveBlock : MonoBehaviour
     bool m_notFirst;
     public int currentInt;
     public int placedInt;
+    private AudioSource m_audioSource;
 	void Start ()
     {
+        m_audioSource = GetComponent<AudioSource>();
         m_startPosition = transform.position;
         m_placement = m_startPosition;
         checkBlockScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<CheckBlocks>();
@@ -65,8 +67,11 @@ public class MoveBlock : MonoBehaviour
 
     void OnMouseDown()
     {
-        if(!isPlaced)
-         m_isClicked = true;
+        if (!isPlaced)
+        {
+            m_isClicked = true;
+            m_audioSource.Play();
+        }
 
     }
 
@@ -79,6 +84,7 @@ public class MoveBlock : MonoBehaviour
         {
             Placed();
         }
+        m_audioSource.Play();
     }
     public GameObject[] children;
     void Placed()

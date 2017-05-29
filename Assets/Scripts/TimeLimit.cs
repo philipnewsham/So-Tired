@@ -69,6 +69,7 @@ public class TimeLimit : MonoBehaviour
     }
     public GameObject endOfWeekPanel;
     public Button[] weekendActivities;
+    public GameObject[] startingBlocks;
     public void NewDay()
     {
         currentDay += 1;
@@ -80,6 +81,11 @@ public class TimeLimit : MonoBehaviour
             minuteHand.transform.eulerAngles = new Vector3(0, 0, 180);
             GetComponent<SpawnBlocks>().currentSpawn = 0;
             m_isCounting = true;
+            for (int i = 0; i < 4; i++)
+            {
+                startingBlocks[i].SetActive(true);
+            }
+            GetComponent<CheckBlocks>().ResetCount();
             SaveInformation();
         }
         else

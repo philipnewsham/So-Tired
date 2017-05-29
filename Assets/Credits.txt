@@ -1,0 +1,17 @@
+Sounds:
+Music:
+From Russia With Love - Huma-Huma
+
+Hidden Agenda by Kevin MacLeod is licensed under a Creative Commons Attribution licence (https://creativecommons.org/licenses/by/4.0/)
+Source: http://incompetech.com/music/royalty-free/index.html?isrc=USUAN1200102
+Artist: http://incompetech.com/ 
+
+SFX:
+Coins		- https://www.freesound.org/people/Anthousai/sounds/336568/
+Coin bag	- https://www.freesound.org/people/PhilSavlem/sounds/338260/
+Clunk		- https://www.freesound.org/people/BMacZero/sounds/94130/
+Thud		- https://www.freesound.org/people/Reitanna/sounds/332668/
+Alarm		- https://www.freesound.org/people/bone666138/sounds/198841/
+
+Font:
+Russian - http://www.dafont.com/russian.font
