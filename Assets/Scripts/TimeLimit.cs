@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 public class TimeLimit : MonoBehaviour
 {
     public float minutesPerDay;
     private float m_secondsInDay = 10f;
     private float m_countDown;
-    private bool m_isCounting = true;
+    private bool m_isCounting = false;
 
     public GameObject minuteHand;
     private float minuteHandRot;
@@ -17,17 +18,22 @@ public class TimeLimit : MonoBehaviour
 
     public int currentDay;
     private Money m_moneyScript;
+
     //public Button clockIn;
     // Use this for initialization
     void Start()
     {
+        print("loadedlevel");
         m_secondsInDay = minutesPerDay * 60f;
         m_countDown = m_secondsInDay;
         m_moneyScript = GetComponent<Money>();
         LoadInformation();
         UpdateDayText();
     }
-
+    public void StartDay()
+    {
+        m_isCounting = true;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -36,27 +42,29 @@ public class TimeLimit : MonoBehaviour
             m_countDown -= Time.deltaTime;
             hourHand.transform.eulerAngles = new Vector3(0, 0, hourHand.transform.eulerAngles.z - ((240/m_secondsInDay) * Time.deltaTime));
             minuteHand.transform.eulerAngles = new Vector3(0, 0, minuteHand.transform.eulerAngles.z - ((2880 / m_secondsInDay) * Time.deltaTime));
+
             if (m_countDown <= 0f)
-            {
-                m_isCounting = false;
                 EndOfDay();
-            }
         }
     }
     public GameObject endOfDayPanel;
     public Text moneyText;
     public Text[] dayText;
     string[] dayString = new string[5] { "Monday", "Tueday", "Wednesday", "Thursday", "Friday" };
-    void EndOfDay()
+    public AudioSource audioSource;
+    public void EndOfDay()
     {
+        audioSource.Play();
+        m_isCounting = false;
         endOfDayPanel.SetActive(true);
+        GetComponent<CheckBlocks>().CheckFinalBlocks();
         m_blocksLeft = GameObject.FindGameObjectsWithTag("Block");
         for (int i = 0; i < m_blocksLeft.Length; i++)
         {
             Destroy(m_blocksLeft[i]);
         }
         m_countDown = m_secondsInDay;
-        moneyText.text = string.Format("${0}", m_moneyScript.money);
+        moneyText.text = string.Format("₽{0}", m_moneyScript.money);
         UpdateDayText();
     }
 
@@ -70,23 +78,26 @@ public class TimeLimit : MonoBehaviour
     public GameObject endOfWeekPanel;
     public Button[] weekendActivities;
     public GameObject[] startingBlocks;
+    public GameObject startDayButton;
     public void NewDay()
     {
         currentDay += 1;
         if (currentDay <= 4)
         {
+            
             UpdateDayText();
             m_countDown = m_secondsInDay;
             hourHand.transform.eulerAngles = new Vector3(0, 0, 270);
             minuteHand.transform.eulerAngles = new Vector3(0, 0, 180);
-            GetComponent<SpawnBlocks>().currentSpawn = 0;
-            m_isCounting = true;
+            //GetComponent<SpawnBlocks>().currentSpawn = 0;
+            //m_isCounting = true;
             for (int i = 0; i < 4; i++)
             {
                 startingBlocks[i].SetActive(true);
             }
             GetComponent<CheckBlocks>().ResetCount();
             SaveInformation();
+            startDayButton.SetActive(true);
         }
         else
         {

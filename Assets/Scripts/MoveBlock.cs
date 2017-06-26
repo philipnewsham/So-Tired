@@ -17,6 +17,7 @@ public class MoveBlock : MonoBehaviour
     public int currentInt;
     public int placedInt;
     private AudioSource m_audioSource;
+    //private bool m_isPlaced;
 	void Start ()
     {
         m_audioSource = GetComponent<AudioSource>();
@@ -77,14 +78,17 @@ public class MoveBlock : MonoBehaviour
 
     void OnMouseUp()
     {
-        m_isClicked = false;
-        transform.position = m_placement;
-
-        if (canBePlaced)
+        if (!isPlaced)
         {
-            Placed();
+            m_isClicked = false;
+            transform.position = m_placement;
+
+            if (canBePlaced)
+            {
+                Placed();
+            }
+            m_audioSource.Play();
         }
-        m_audioSource.Play();
     }
     public GameObject[] children;
     void Placed()
@@ -92,7 +96,7 @@ public class MoveBlock : MonoBehaviour
         EnableGhost();
         isPlaced = true;
         checkBlockScript.AddBlockCount(gameObject);
-
+        
         if (m_notFirst)
             lastBlock.GetComponentInParent<MoveBlock>().DisableGhost();
     }
